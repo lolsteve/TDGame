@@ -5,6 +5,10 @@ using UnityEngine;
 public class Tower : MonoBehaviour {
 
 	Transform turretTransform;
+  public GameObject bulletPrefab;
+
+  float fireCooldown = 0.5f;
+  float fireCooldownLeft = 0f;
 
 	// Use this for initialization
 	void Start () {
@@ -33,15 +37,26 @@ public class Tower : MonoBehaviour {
 
 		Vector3 dir = nearestEnemy.transform.position - this.transform.position;
 
-		Debug.Log (dir);
-
 		Quaternion lookRot = Quaternion.LookRotation (dir, Vector3.up);
 
 		// This is weird
-		if (lookRot.eulerAngles.y == 270) {
-			turretTransform.rotation = Quaternion.Euler (0, 0, lookRot.eulerAngles.x + 90f);
-		} else {
-			turretTransform.rotation = Quaternion.Euler (0, 0, -lookRot.eulerAngles.x - 90f);
+    float rotation = lookRot.eulerAngles.x + 90f;
+		if (lookRot.eulerAngles.y == 90) {
+			rotation = -lookRot.eulerAngles.x - 90f;
 		}
+    turretTransform.rotation = Quaternion.Euler (0, 0, rotation);
+
+    fireCooldownLeft -= Time.deltaTime;
+    if (fireCooldownLeft <= 0) {
+      fireCooldownLeft = fireCooldown;
+      Shoot(new Vector2(dir.x, dir.y), rotation);
+    }
 	}
+
+  void Shoot(Vector2 dir, float rotation) {
+    GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, this.transform.position, Quaternion.Euler (0, 0, rotation));
+
+    Bullet b = bulletGO.GetComponent<Bullet>();
+    b.dir = dir;
+  }
 }
