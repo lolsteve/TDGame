@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour {
   public int damage = 1;
   public Vector2 dir;
   bool colliding = false;
+  int health = 1;
 
   // Use this for initialization
   void Start () {
@@ -26,17 +27,20 @@ public class Bullet : MonoBehaviour {
     switch (coll.gameObject.tag)
     {
       case "Enemy":
-      if (!colliding) {
-        colliding = true;
-        coll.gameObject.GetComponent<Enemy>().TakeDamage(damage);
-      }
-      goto case "BulletWall";
+        if (!colliding) {
+          colliding = true;
+          coll.gameObject.GetComponent<Enemy>().TakeDamage(damage);
+          if (--health <= 0) {
+            Destroy(gameObject);
+          }
+        }
+        break;
       case "BulletWall":
-      Destroy(gameObject);
-      break;
+        Destroy(gameObject);
+        break;
       default:
-      Debug.Log("Unknown collision " + coll.gameObject.tag);
-      break;
+        Debug.Log("Unknown collision " + coll.gameObject.tag);
+        break;
     }
   }
 
