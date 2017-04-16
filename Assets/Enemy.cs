@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour {
 
   GameObject pathGO;
+  SpriteRenderer sprite;
 
   Transform targetPathNode;
   int pathNodeIndex = 0;
@@ -18,6 +19,7 @@ public class Enemy : MonoBehaviour {
   // Use this for initialization
   void Start () {
     pathGO = GameObject.Find ("Path");
+    sprite = GetComponentInChildren<SpriteRenderer>();
     distTraveled = 0;
   }
 
@@ -64,6 +66,29 @@ public class Enemy : MonoBehaviour {
     health -= amount;
     if (health <= 0) {
       Destroy(gameObject);
+      return;
+    }
+    UpdateLevel();
+  }
+
+  void UpdateLevel() {
+    switch (health) {
+      case 1:
+        speed = 1.5f;
+        sprite.color = new Color(1f, 0f, 0f, 1f); // Red
+        break;
+      case 2:
+        speed = 2f;
+        sprite.color = new Color(0f, 0f, 1f, 1f); // Blue
+        break;
+      case 3:
+        speed = 2.5f;
+        sprite.color = new Color(0f, 1f, 0f, 1f); // Green
+        break;
+      default:
+        speed = 1.5f;
+        sprite.color = new Color(1f, 0f, 0f, 1f); // Red
+        break;
     }
   }
 
