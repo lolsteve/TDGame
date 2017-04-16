@@ -17,8 +17,6 @@ public class EnemySpawner : MonoBehaviour {
   float spawnCD = 0.15f;
   float spawnCDleft = 0f;
 
-  int totalSpawned = 0;
-
   // Use this for initialization
   void Start () {
 
@@ -33,9 +31,7 @@ public class EnemySpawner : MonoBehaviour {
 
       foreach(WaveComponent wc in waveComps) {
         if(wc.spawned < wc.num) {
-          GameObject enemyGO = (GameObject)Instantiate(wc.enemyPrefab, this.transform.position, this.transform.rotation);
-          Enemy e = enemyGO.GetComponent<Enemy>();
-          e.index = totalSpawned++;
+          Instantiate(wc.enemyPrefab, this.transform.position, this.transform.rotation);
           didSpawn = true;
           wc.spawned++;
           break;

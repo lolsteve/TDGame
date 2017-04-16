@@ -34,7 +34,7 @@ public class Tower : MonoBehaviour {
 
     // Shoot at first enemy
     foreach (Enemy e in enemies) {
-      if (nearestEnemy == null || e.index < nearestEnemy.index) {
+      if (nearestEnemy == null || e.distTraveled > nearestEnemy.distTraveled) {
           nearestEnemy = e;
       }
     }

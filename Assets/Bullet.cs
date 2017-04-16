@@ -35,7 +35,7 @@ public class Bullet : MonoBehaviour {
       Destroy(gameObject);
       break;
       default:
-      Debug.Log("Unknown collision" + coll.gameObject.tag);
+      Debug.Log("Unknown collision " + coll.gameObject.tag);
       break;
     }
   }

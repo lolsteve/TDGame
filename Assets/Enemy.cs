@@ -9,15 +9,16 @@ public class Enemy : MonoBehaviour {
   Transform targetPathNode;
   int pathNodeIndex = 0;
 
-  float speed = 2f;
+  public float speed = 2f;
 
   public int health = 1;
 
-  public int index { get; set; }
+  public float distTraveled { get; private set; }
 
   // Use this for initialization
   void Start () {
     pathGO = GameObject.Find ("Path");
+    distTraveled = 0;
   }
 
   // Update is called once per frame
@@ -34,6 +35,7 @@ public class Enemy : MonoBehaviour {
     Vector2 dir = targetPathNode.position - this.transform.localPosition;
 
     float distThisFrame = speed * Time.deltaTime;
+    distTraveled += distThisFrame;
 
     if (dir.magnitude <= distThisFrame) {
       // Reached target node
