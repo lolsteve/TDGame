@@ -9,34 +9,34 @@ public class Bullet : MonoBehaviour {
   public Vector2 dir;
   bool colliding = false;
 
-	// Use this for initialization
-	void Start () {
+  // Use this for initialization
+  void Start () {
     dir = dir.normalized;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+  }
+
+  // Update is called once per frame
+  void Update () {
     colliding = false;
     float distThisFrame = speed * Time.deltaTime;
 
     this.transform.Translate( dir * distThisFrame, Space.World );
-	}
+  }
 
   void OnTriggerEnter2D(Collider2D coll) {
     switch (coll.gameObject.tag)
     {
       case "Enemy":
-        if (!colliding) {
-          colliding = true;
-          coll.gameObject.GetComponent<Enemy>().TakeDamage(damage);
-        }
-        goto case "BulletWall";
+      if (!colliding) {
+        colliding = true;
+        coll.gameObject.GetComponent<Enemy>().TakeDamage(damage);
+      }
+      goto case "BulletWall";
       case "BulletWall":
-        Destroy(gameObject);
-        break;
+      Destroy(gameObject);
+      break;
       default:
-        Debug.Log("Unknown collision" + coll.gameObject.tag);
-        break;
+      Debug.Log("Unknown collision" + coll.gameObject.tag);
+      break;
     }
   }
 

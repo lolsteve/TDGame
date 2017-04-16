@@ -5,26 +5,26 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour {
 
   [System.Serializable]
-  public class WaveComponent {
-    public GameObject enemyPrefab;
-    public int num;
-    [System.NonSerialized]
-    public int spawned = 0;
-  }
+    public class WaveComponent {
+      public GameObject enemyPrefab;
+      public int num;
+      [System.NonSerialized]
+        public int spawned = 0;
+    }
 
   public WaveComponent[] waveComps;
 
   float spawnCD = 0.15f;
   float spawnCDleft = 0f;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		spawnCDleft -= Time.deltaTime;
+  // Use this for initialization
+  void Start () {
+
+  }
+
+  // Update is called once per frame
+  void Update () {
+    spawnCDleft -= Time.deltaTime;
     if (spawnCDleft <= 0) {
       spawnCDleft = spawnCD;
       bool didSpawn = false;
@@ -42,5 +42,5 @@ public class EnemySpawner : MonoBehaviour {
         Destroy(gameObject);
       }
     }
-	}
+  }
 }
