@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour {
 
   public float speed = 10f;
   public Vector2 dir;
+  bool colliding = false;
 
 	// Use this for initialization
 	void Start () {
@@ -14,6 +15,7 @@ public class Bullet : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+    colliding = false;
     float distThisFrame = speed * Time.deltaTime;
 
     this.transform.Translate( dir * distThisFrame, Space.World );
@@ -23,7 +25,10 @@ public class Bullet : MonoBehaviour {
     switch (coll.gameObject.tag)
     {
       case "Enemy":
-        Destroy(coll.gameObject);
+        if (!colliding) {
+          colliding = true;
+          Destroy(coll.gameObject);
+        }
         goto case "BulletWall";
       case "BulletWall":
         Destroy(gameObject);
@@ -33,4 +38,5 @@ public class Bullet : MonoBehaviour {
         break;
     }
   }
+
 }

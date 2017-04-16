@@ -55,4 +55,5 @@ public class Enemy : MonoBehaviour {
 	void ReachedGoal () {
 		Destroy (gameObject);
 	}
+
 }

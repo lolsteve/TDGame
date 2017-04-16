@@ -60,10 +60,4 @@ public class Tower : MonoBehaviour {
     b.dir = dir;
   }
 
-  void OnTriggerEnter2D(Collider2D coll) {
-    Debug.Log("hit!");
-    if (coll.gameObject.tag == "Enemy") {
-      Destroy(gameObject);
-    }
-  }
 }
