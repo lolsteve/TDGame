@@ -10,16 +10,18 @@ public class Tower : MonoBehaviour {
   float fireCooldown = 0.5f;
   float fireCooldownLeft = 0f;
 
+  List<Enemy> enemies;
+
   // Use this for initialization
   void Start () {
     turretTransform = transform.Find ("Turret");
+    enemies = new List<Enemy>();
   }
 
   // Update is called once per frame
   void Update () {
-    Enemy[] enemies = GameObject.FindObjectsOfType<Enemy>();
-
     Enemy nearestEnemy = null;
+    /* shoot at nearest enemy
     float dist = Mathf.Infinity;
 
     foreach (Enemy e in enemies) {
@@ -27,6 +29,13 @@ public class Tower : MonoBehaviour {
       if (nearestEnemy == null || d < dist) {
         nearestEnemy = e;
         dist = d;
+      }
+    }*/
+
+    // Shoot at first enemy
+    foreach (Enemy e in enemies) {
+      if (nearestEnemy == null || e.index < nearestEnemy.index) {
+          nearestEnemy = e;
       }
     }
 
@@ -58,6 +67,19 @@ public class Tower : MonoBehaviour {
 
     Bullet b = bulletGO.GetComponent<Bullet>();
     b.dir = dir;
+  }
+
+  void OnTriggerEnter2D(Collider2D coll) {
+    if (coll.gameObject.tag == "Enemy") {
+      enemies.Add(coll.gameObject.GetComponent<Enemy>());
+    } 
+  }
+
+  void OnTriggerExit2D(Collider2D coll) {
+    if (coll.gameObject.tag == "Enemy") {
+      enemies.Remove(coll.gameObject.GetComponent<Enemy>());
+    } 
+  
   }
 
 }

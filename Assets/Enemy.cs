@@ -13,6 +13,8 @@ public class Enemy : MonoBehaviour {
 
   public int health = 1;
 
+  public int index { get; set; }
+
   // Use this for initialization
   void Start () {
     pathGO = GameObject.Find ("Path");
