@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour {
 
   public float speed = 10f;
+  public int damage = 1;
   public Vector2 dir;
   bool colliding = false;
 
@@ -27,7 +28,7 @@ public class Bullet : MonoBehaviour {
       case "Enemy":
         if (!colliding) {
           colliding = true;
-          Destroy(coll.gameObject);
+          coll.gameObject.GetComponent<Enemy>().TakeDamage(damage);
         }
         goto case "BulletWall";
       case "BulletWall":
