@@ -41,7 +41,7 @@ public class Tower : MonoBehaviour {
 
 		// This is weird
     float rotation = lookRot.eulerAngles.x + 90f;
-		if (lookRot.eulerAngles.y == 90) {
+		if (lookRot.eulerAngles.y != 270) {
 			rotation = -lookRot.eulerAngles.x - 90f;
 		}
     turretTransform.rotation = Quaternion.Euler (0, 0, rotation);
@@ -58,5 +58,12 @@ public class Tower : MonoBehaviour {
 
     Bullet b = bulletGO.GetComponent<Bullet>();
     b.dir = dir;
+  }
+
+  void OnTriggerEnter2D(Collider2D coll) {
+    Debug.Log("hit!");
+    if (coll.gameObject.tag == "Enemy") {
+      Destroy(gameObject);
+    }
   }
 }

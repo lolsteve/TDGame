@@ -20,9 +20,17 @@ public class Bullet : MonoBehaviour {
 	}
 
   void OnTriggerEnter2D(Collider2D coll) {
-    Debug.Log("hit!");
-    if (coll.gameObject.tag == "Enemy") {
-      Destroy(gameObject);
+    switch (coll.gameObject.tag)
+    {
+      case "Enemy":
+        Destroy(coll.gameObject);
+        goto case "BulletWall";
+      case "BulletWall":
+        Destroy(gameObject);
+        break;
+      default:
+        Debug.Log("Unknown collision" + coll.gameObject.tag);
+        break;
     }
   }
 }
