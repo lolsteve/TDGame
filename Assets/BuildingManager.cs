@@ -15,7 +15,6 @@ public class BuildingManager : MonoBehaviour {
 	}
 
   public void BuildTower(GameObject prefab) {
-    Debug.Log("Button clicked?");
     Instantiate(prefab, new Vector3(0,0,0), new Quaternion(0,0,0,0));
   }
 }

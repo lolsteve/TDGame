@@ -12,6 +12,7 @@ public class Tower : MonoBehaviour {
 
   public float radius = 1;
   CircleCollider2D collider;
+  SpriteRenderer radiusSprite;
 
   List<Enemy> enemies;
 
@@ -20,8 +21,9 @@ public class Tower : MonoBehaviour {
   // Use this for initialization
   void Start () {
     turretTransform = transform.Find ("Turret");
-    collider = transform.GetComponent<CircleCollider2D>();
+    collider = GetComponent<CircleCollider2D>();
     collider.radius = radius;
+    radiusSprite = transform.Find ("Radius").GetComponent<SpriteRenderer>();
     enemies = new List<Enemy>();
   }
 
@@ -37,6 +39,7 @@ public class Tower : MonoBehaviour {
       // Place turret if we click
       if(Input.GetMouseButtonDown(0)) {
         placed = true; 
+        radiusSprite.enabled = false;
       }
       // Don't shoot or anything if we aren't placed yet
       return;
