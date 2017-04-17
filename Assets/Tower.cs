@@ -7,7 +7,7 @@ public class Tower : MonoBehaviour {
   Transform turretTransform;
   public GameObject bulletPrefab;
 
-  float fireCooldown = 0.5f;
+  public float fireCooldown = 0.5f;
   float fireCooldownLeft = 0f;
 
   List<Enemy> enemies;
@@ -40,7 +40,7 @@ public class Tower : MonoBehaviour {
     }
 
     if (nearestEnemy == null) {
-      Debug.Log ("No enemies");
+      //Debug.Log ("No enemies");
       return;
     }
 
