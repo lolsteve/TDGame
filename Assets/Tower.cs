@@ -10,16 +10,37 @@ public class Tower : MonoBehaviour {
   public float fireCooldown = 0.5f;
   float fireCooldownLeft = 0f;
 
+  public float radius = 1;
+  CircleCollider2D collider;
+
   List<Enemy> enemies;
+
+  bool placed = false;
 
   // Use this for initialization
   void Start () {
     turretTransform = transform.Find ("Turret");
+    collider = transform.GetComponent<CircleCollider2D>();
+    collider.radius = radius;
     enemies = new List<Enemy>();
   }
 
   // Update is called once per frame
   void Update () {
+    if (!placed) {
+      // Get mouse position
+      Vector3 pos = Input.mousePosition;
+      pos.z = 10;
+      pos = Camera.main.ScreenToWorldPoint(pos);
+      this.transform.position = pos;
+
+      // Place turret if we click
+      if(Input.GetMouseButtonDown(0)) {
+        placed = true; 
+      }
+      // Don't shoot or anything if we aren't placed yet
+      return;
+    }
     Enemy nearestEnemy = null;
     /* shoot at nearest enemy
     float dist = Mathf.Infinity;
