@@ -14,8 +14,8 @@ public class EnemySpawner : MonoBehaviour {
 
   public WaveComponent[] waveComps;
 
-  float spawnCD = 0.15f;
-  float spawnCDleft = 0f;
+  float spawnCD = 0.25f;
+  float spawnCDleft = 5f;
 
   // Use this for initialization
   void Start () {
@@ -39,6 +39,12 @@ public class EnemySpawner : MonoBehaviour {
       }
 
       if(didSpawn == false) {
+        if(transform.parent.childCount > 1) {
+          // Start next wave
+          transform.parent.GetChild(1).gameObject.SetActive(true);
+        } else {
+          // last wave 
+        }
         Destroy(gameObject);
       }
     }

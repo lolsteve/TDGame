@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour {
 
   public int health = 1;
 
+  public int moneyValue = 1;
+
   public float distTraveled { get; private set; }
 
   // Use this for initialization
@@ -28,8 +30,7 @@ public class Enemy : MonoBehaviour {
     if (targetPathNode == null) {
       GetNextPathNode ();
       if (targetPathNode == null) {
-        // end of path?
-        ReachedGoal();
+        // end of path
         return;
       }
     }
@@ -52,6 +53,7 @@ public class Enemy : MonoBehaviour {
 
   void GetNextPathNode () {
     if (pathNodeIndex >= pathGO.transform.childCount) {
+      targetPathNode = null;
       ReachedGoal ();
     } else {
       targetPathNode = pathGO.transform.GetChild (pathNodeIndex++);
@@ -59,11 +61,13 @@ public class Enemy : MonoBehaviour {
   }
 
   void ReachedGoal () {
+    GameObject.FindObjectOfType<ScoreManager>().LoseLife(health);
     Destroy (gameObject);
   }
 
   public void TakeDamage(int amount) {
     health -= amount;
+    GameObject.FindObjectOfType<ScoreManager>().money += moneyValue;
     if (health <= 0) {
       Destroy(gameObject);
       return;

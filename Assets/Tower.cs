@@ -11,7 +11,7 @@ public class Tower : MonoBehaviour {
   float fireCooldownLeft = 0f;
 
   public float radius = 1;
-  CircleCollider2D collider;
+  CircleCollider2D rangeCollider;
   SpriteRenderer radiusSprite;
 
   public int cost = 160;
@@ -23,8 +23,8 @@ public class Tower : MonoBehaviour {
   // Use this for initialization
   void Start () {
     turretTransform = transform.Find ("Turret");
-    collider = GetComponent<CircleCollider2D>();
-    collider.radius = radius;
+    rangeCollider = GetComponent<CircleCollider2D>();
+    rangeCollider.radius = radius;
     radiusSprite = transform.Find ("Radius").GetComponent<SpriteRenderer>();
     enemies = new List<Enemy>();
   }
