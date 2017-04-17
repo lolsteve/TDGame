@@ -14,6 +14,8 @@ public class Tower : MonoBehaviour {
   CircleCollider2D collider;
   SpriteRenderer radiusSprite;
 
+  public int cost = 160;
+
   List<Enemy> enemies;
 
   bool placed = false;

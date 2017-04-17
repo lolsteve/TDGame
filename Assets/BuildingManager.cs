@@ -15,6 +15,11 @@ public class BuildingManager : MonoBehaviour {
 	}
 
   public void BuildTower(GameObject prefab) {
-    Instantiate(prefab, new Vector3(0,0,0), new Quaternion(0,0,0,0));
+    ScoreManager sm = GameObject.FindObjectOfType<ScoreManager>();
+    Tower t = prefab.GetComponent<Tower>();
+    if (sm.money >= t.cost) {
+      sm.money -= t.cost;
+      Instantiate(prefab, new Vector3(0,0,0), new Quaternion(0,0,0,0));
+    }
   }
 }
