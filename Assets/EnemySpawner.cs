@@ -5,12 +5,12 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour {
 
   [System.Serializable]
-    public class WaveComponent {
-      public GameObject enemyPrefab;
-      public int num;
-      [System.NonSerialized]
-        public int spawned = 0;
-    }
+  public class WaveComponent {
+    public GameObject enemyPrefab;
+    public int num;
+    [System.NonSerialized]
+    public int spawned = 0;
+  }
 
   public WaveComponent[] waveComps;
 

@@ -12,17 +12,17 @@ public class ScoreManager : MonoBehaviour {
   public Text moneyText;
   public Text livesText;
 
-	// Use this for initialization
-	void Start () {
+  // Use this for initialization
+  void Start () {
 
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	  moneyText.text = "Money: $"	+ money;
+
+  }
+
+  // Update is called once per frame
+  void Update () {
+    moneyText.text = "Money: $"	+ money;
     livesText.text = "Lives: " + lives;
-	}
+  }
 
   public void LoseLife(int l = 1) {
     lives -= l;

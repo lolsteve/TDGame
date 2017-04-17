@@ -46,27 +46,17 @@ public class Tower : MonoBehaviour {
       // Don't shoot or anything if we aren't placed yet
       return;
     }
+
     Enemy nearestEnemy = null;
-    /* shoot at nearest enemy
-    float dist = Mathf.Infinity;
-
-    foreach (Enemy e in enemies) {
-      float d = Vector2.Distance (this.transform.position, e.transform.position);
-      if (nearestEnemy == null || d < dist) {
-        nearestEnemy = e;
-        dist = d;
-      }
-    }*/
-
     // Shoot at first enemy
     foreach (Enemy e in enemies) {
       if (nearestEnemy == null || e.distTraveled > nearestEnemy.distTraveled) {
-          nearestEnemy = e;
+        nearestEnemy = e;
       }
     }
 
     if (nearestEnemy == null) {
-      //Debug.Log ("No enemies");
+      // No enemies
       return;
     }
 
@@ -105,7 +95,7 @@ public class Tower : MonoBehaviour {
     if (coll.gameObject.tag == "Enemy") {
       enemies.Remove(coll.gameObject.GetComponent<Enemy>());
     } 
-  
+
   }
 
 }

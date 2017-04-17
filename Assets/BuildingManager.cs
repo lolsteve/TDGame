@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class BuildingManager : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+  // Use this for initialization
+  void Start () {
+
+  }
+
+  // Update is called once per frame
+  void Update () {
+
+  }
 
   public void BuildTower(GameObject prefab) {
     ScoreManager sm = GameObject.FindObjectOfType<ScoreManager>();
