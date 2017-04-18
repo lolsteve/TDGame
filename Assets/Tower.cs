@@ -4,33 +4,38 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour {
 
-  Transform turretTransform;
+  protected Transform turretTransform;
   public GameObject bulletPrefab;
 
-  public float fireCooldown = 0.5f;
-  float fireCooldownLeft = 0f;
+  public float fireCooldown;
+  protected float fireCooldownLeft = 0f;
 
-  public float radius = 1;
-  CircleCollider2D rangeCollider;
-  SpriteRenderer radiusSprite;
+  public float radius;
+  protected CircleCollider2D rangeCollider;
+  protected Transform radiusSprite;
 
-  public int cost = 160;
+  public int cost;
 
-  List<Enemy> enemies;
+  public int bulletDamage = 1;
+  public int bulletHealth = 1;
 
-  bool placed = false;
+  protected List<Enemy> enemies;
+
+  protected bool placed = false;
 
   // Use this for initialization
-  void Start () {
+  protected virtual void Start () {
     turretTransform = transform.Find ("Turret");
     rangeCollider = GetComponent<CircleCollider2D>();
     rangeCollider.radius = radius;
-    radiusSprite = transform.Find ("Radius").GetComponent<SpriteRenderer>();
+    radiusSprite = transform.Find ("Radius");
+    Vector3 radiusScale = new Vector3(radius*2, radius*2, 1);
+    radiusSprite.localScale = radiusScale;
     enemies = new List<Enemy>();
   }
 
   // Update is called once per frame
-  void Update () {
+  protected virtual void Update () {
     if (!placed) {
       // Get mouse position
       Vector3 pos = Input.mousePosition;
@@ -41,48 +46,28 @@ public class Tower : MonoBehaviour {
       // Place turret if we click
       if(Input.GetMouseButtonDown(0)) {
         placed = true; 
-        radiusSprite.enabled = false;
-      }
-      // Don't shoot or anything if we aren't placed yet
-      return;
-    }
-
-    Enemy nearestEnemy = null;
-    // Shoot at first enemy
-    foreach (Enemy e in enemies) {
-      if (nearestEnemy == null || e.distTraveled > nearestEnemy.distTraveled) {
-        nearestEnemy = e;
+        radiusSprite.gameObject.SetActive(false);
       }
     }
+    fireCooldownLeft -= Time.deltaTime;
+  }
+  
+  protected virtual void ShootAt(Enemy e) {
+    PointTurretAt(e);
+  }
 
-    if (nearestEnemy == null) {
-      // No enemies
-      return;
-    }
-
-    Vector3 dir = nearestEnemy.transform.position - this.transform.position;
-
+  protected void PointTurretAt(Enemy e) {
+    // Find direction to enemy
+    Vector3 dir = e.transform.position - this.transform.position;
+    // Calculate angle to enemy
     Quaternion lookRot = Quaternion.LookRotation (dir, Vector3.up);
 
-    // This is weird
+    // Turn turret to enemy
     float rotation = lookRot.eulerAngles.x + 90f;
     if (lookRot.eulerAngles.y != 270) {
       rotation = -lookRot.eulerAngles.x - 90f;
     }
     turretTransform.rotation = Quaternion.Euler (0, 0, rotation);
-
-    fireCooldownLeft -= Time.deltaTime;
-    if (fireCooldownLeft <= 0) {
-      fireCooldownLeft = fireCooldown;
-      Shoot(new Vector2(dir.x, dir.y), rotation);
-    }
-  }
-
-  void Shoot(Vector2 dir, float rotation) {
-    GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, this.transform.position, Quaternion.Euler (0, 0, rotation));
-
-    Bullet b = bulletGO.GetComponent<Bullet>();
-    b.dir = dir;
   }
 
   void OnTriggerEnter2D(Collider2D coll) {

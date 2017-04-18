@@ -5,10 +5,10 @@ using UnityEngine;
 public class Bullet : MonoBehaviour {
 
   public float speed = 10f;
-  public int damage = 1;
+  public int damage { get; set; }
   public Vector2 dir;
   bool colliding = false;
-  int health = 1;
+  public int health { get; set; }
 
   // Use this for initialization
   void Start () {
@@ -39,7 +39,6 @@ public class Bullet : MonoBehaviour {
         Destroy(gameObject);
         break;
       default:
-        Debug.Log("Unknown collision " + coll.gameObject.tag);
         break;
     }
   }
