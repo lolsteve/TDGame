@@ -11,7 +11,6 @@ public class Tower : MonoBehaviour {
   protected float fireCooldownLeft = 0f;
 
   public float radius;
-  protected CircleCollider2D rangeCollider;
   protected Transform radiusSprite;
 
   public int cost;
@@ -19,19 +18,14 @@ public class Tower : MonoBehaviour {
   public int bulletDamage = 1;
   public int bulletHealth = 1;
 
-  protected List<Enemy> enemies;
-
   protected bool placed = false;
 
   // Use this for initialization
   protected virtual void Start () {
     turretTransform = transform.Find ("Turret");
-    rangeCollider = GetComponent<CircleCollider2D>();
-    rangeCollider.radius = radius;
     radiusSprite = transform.Find ("Radius");
     Vector3 radiusScale = new Vector3(radius*2, radius*2, 1);
     radiusSprite.localScale = radiusScale;
-    enemies = new List<Enemy>();
   }
 
   // Update is called once per frame
@@ -45,11 +39,29 @@ public class Tower : MonoBehaviour {
 
       // Place turret if we click
       if(Input.GetMouseButtonDown(0)) {
-        placed = true; 
-        radiusSprite.gameObject.SetActive(false);
+        placed = true;
+        DisableRadius();
       }
     }
     fireCooldownLeft -= Time.deltaTime;
+  }
+
+  protected Enemy FindFurthestEnemy() {
+    // Create sphere collider of radius
+    Enemy furthestEnemy = null;
+
+    Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, radius);
+    foreach(Collider2D c in cols) {
+      if(c.gameObject.tag == "Enemy") {
+        Enemy e = c.gameObject.GetComponent<Enemy>();
+        // If we collided with an enemy, check if it's distanced traveled
+        if (furthestEnemy == null || e.distTraveled > furthestEnemy.distTraveled) {
+          furthestEnemy = e;
+        }
+      }
+    }
+
+    return furthestEnemy;
   }
   
   protected virtual void ShootAt(Enemy e) {
@@ -70,17 +82,19 @@ public class Tower : MonoBehaviour {
     turretTransform.rotation = Quaternion.Euler (0, 0, rotation);
   }
 
-  void OnTriggerEnter2D(Collider2D coll) {
-    if (coll.gameObject.tag == "Enemy") {
-      enemies.Add(coll.gameObject.GetComponent<Enemy>());
-    } 
+  public void EnableRadius() {
+    radiusSprite.gameObject.SetActive(true);
   }
 
-  void OnTriggerExit2D(Collider2D coll) {
-    if (coll.gameObject.tag == "Enemy") {
-      enemies.Remove(coll.gameObject.GetComponent<Enemy>());
-    } 
+  public void DisableRadius() {
+    radiusSprite.gameObject.SetActive(false);
+  }
 
+  void OnMouseDown() {
+    if (!placed)
+      return;
+    UpgradeManager um = GameObject.FindObjectOfType<UpgradeManager>();
+    um.SelectTower(this);
   }
 
 }

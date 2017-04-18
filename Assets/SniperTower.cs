@@ -18,22 +18,16 @@ public class SniperTower : Tower {
     if (!placed)
       return;
 
-    Enemy nearestEnemy = null;
-    // Shoot at first enemy
-    foreach (Enemy e in enemies) {
-      if (nearestEnemy == null || e.distTraveled > nearestEnemy.distTraveled) {
-        nearestEnemy = e;
-      }
-    }
+    Enemy furthestEnemy = FindFurthestEnemy();
 
-    if (nearestEnemy == null) {
+    if (furthestEnemy == null) {
       // No enemies
       return;
     }
 
     if (fireCooldownLeft <= 0) {
       fireCooldownLeft = fireCooldown;
-      ShootAt(nearestEnemy);
+      ShootAt(furthestEnemy);
     }
   }
 
