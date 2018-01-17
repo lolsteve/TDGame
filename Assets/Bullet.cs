@@ -7,12 +7,14 @@ public class Bullet : MonoBehaviour {
   public float speed = 10f;
   public int damage { get; set; }
   public Vector2 dir;
-  bool colliding = false;
+  public bool colliding = false;
   public int health { get; set; }
+  public Rigidbody2D rb;
 
   // Use this for initialization
-  void Start () {
+  protected void Start () {
     dir = dir.normalized;
+    rb = GetComponent<Rigidbody2D>();
   }
 
   // Update is called once per frame
@@ -20,10 +22,11 @@ public class Bullet : MonoBehaviour {
     colliding = false;
     float distThisFrame = speed * Time.deltaTime;
 
-    this.transform.Translate( dir * distThisFrame, Space.World );
+    //this.transform.Translate( dir * distThisFrame, Space.World );
+    rb.MovePosition(rb.position + dir * distThisFrame);
   }
 
-  void OnTriggerEnter2D(Collider2D coll) {
+  protected virtual void OnTriggerEnter2D(Collider2D coll) {
     switch (coll.gameObject.tag)
     {
       case "Enemy":
